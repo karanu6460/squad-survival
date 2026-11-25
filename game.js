@@ -6,6 +6,7 @@
   const ui = {
     menu: document.querySelector('#menu'), hud: document.querySelector('#hud'), end: document.querySelector('#end-screen'),
     play: document.querySelector('#play-button'), online: document.querySelector('#online-button'), replay: document.querySelector('#replay-button'), playerName: document.querySelector('#player-name'), onlineStatus: document.querySelector('#online-status'),
+    android: document.querySelector('#android-button'), installSheet: document.querySelector('#install-sheet'), installClose: document.querySelector('#install-close'), installConfirm: document.querySelector('#install-confirm'), installCopy: document.querySelector('#install-copy'), installHelp: document.querySelector('#install-help'),
     blue: document.querySelector('#blue-score'), red: document.querySelector('#red-score'), timer: document.querySelector('#timer'),
     hp: document.querySelector('#health-fill'), shield: document.querySelector('#shield-fill'), healthLabel: document.querySelector('#health-label'),
     mission: document.querySelector('#mission-text'), feed: document.querySelector('#kill-feed'),
@@ -24,7 +25,7 @@
     scale: 1, particles: coarsePointer ? .74 : 1, maxParticles: coarsePointer ? 165 : 245,
     frameMs: 16.7, fps: 60, lastScaleCheck: 0, hudTick: 0
   };
-  let W = 0, H = 0, now = 0, last = 0, started = false, audioCtx, audioBus;
+  let W = 0, H = 0, now = 0, last = 0, started = false, audioCtx, audioBus, deferredInstallPrompt = null;
   let game = null;
   let socket = null;
   const online = { id: null, team: 'blue', joined: false, inputTick: 0, dashQueued: false, soundCd: 0 };
@@ -104,7 +105,20 @@
     if (data.t === 'state') applyOnlineState(data);
     if (data.t === 'end') { if (game) { game.blue = data.blue; game.red = data.red; game.time = 0; endGame(); } }
   }
-  ui.play.addEventListener('click', () => startGame('offline')); ui.online.addEventListener('click', joinOnline); ui.replay.addEventListener('click', () => game?.mode === 'online' ? joinOnline() : startGame('offline'));
+  function installedMode() { return matchMedia('(display-mode: standalone)').matches || navigator.standalone === true; }
+  function showInstallSheet() {
+    if (installedMode()) { ui.installCopy.textContent = 'NOVA STRIKE is already installed on this device.'; ui.installConfirm.classList.add('hidden'); ui.installHelp.textContent = 'Launch it from your Android home screen.'; }
+    else { ui.installCopy.textContent = 'Install for a full-screen arena, quick launch, and less browser clutter.'; ui.installConfirm.classList.remove('hidden'); ui.installHelp.textContent = deferredInstallPrompt ? 'Tap Download & Play to install now.' : 'In Chrome on Android, tap ⋮ then Install app.'; }
+    ui.installSheet.classList.remove('hidden');
+  }
+  async function requestInstall() {
+    if (!deferredInstallPrompt) { ui.installCopy.textContent = 'Use Chrome’s three-dot menu, then tap “Install app” to add NOVA STRIKE to your home screen.'; ui.installHelp.textContent = 'The game must be opened from your deployed HTTPS link.'; return; }
+    deferredInstallPrompt.prompt(); const choice = await deferredInstallPrompt.userChoice; deferredInstallPrompt = null;
+    if (choice.outcome === 'accepted') { ui.installSheet.classList.add('hidden'); } else { ui.installHelp.textContent = 'No problem — you can install it later from the Chrome menu.'; }
+  }
+  addEventListener('beforeinstallprompt', event => { event.preventDefault(); deferredInstallPrompt = event; });
+  addEventListener('appinstalled', () => { deferredInstallPrompt = null; ui.android.innerHTML = '<span>✓</span><div>ANDROID APP INSTALLED<small>LAUNCH FROM YOUR HOME SCREEN</small></div>'; });
+  ui.play.addEventListener('click', () => startGame('offline')); ui.online.addEventListener('click', joinOnline); ui.replay.addEventListener('click', () => game?.mode === 'online' ? joinOnline() : startGame('offline')); ui.android.addEventListener('click', showInstallSheet); ui.installClose.addEventListener('click', () => ui.installSheet.classList.add('hidden')); ui.installConfirm.addEventListener('click', requestInstall);
 
   function createAudio() {
     try { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); const compressor = audioCtx.createDynamicsCompressor(); compressor.threshold.value = -18; compressor.knee.value = 13; compressor.ratio.value = 8; audioBus = audioCtx.createGain(); audioBus.gain.value = .6; audioBus.connect(compressor).connect(audioCtx.destination); } catch(e) { audioCtx = null; }

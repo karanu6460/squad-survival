@@ -59,6 +59,7 @@
           <input id="player-name" class="callsign" maxlength="12" value="RANGER" aria-label="Your callsign" />
           <button id="online-button" class="primary-button">FIND ONLINE MATCH <b>›</b></button>
           <button id="play-button" class="secondary-button">TRAIN WITH BOTS</button>
+          <button id="android-button" class="android-button"><span>↓</span><div>INSTALL ON ANDROID<small>FULL-SCREEN APP · NO BROWSER BAR</small></div></button>
           <p id="online-status" class="online-status">10 players per tactical match</p>
           <div class="tips"><span>◉ MOVE</span><span>◎ AIM + FIRE</span><span>↗ DASH</span></div>
         </div>
@@ -72,6 +73,18 @@
         <p id="result-copy">Alpha squad owns the arena.</p>
         <div class="final-score"><div><span id="final-blue">40</span><small>ALPHA</small></div><b>:</b><div><span id="final-red">28</span><small>OMEGA</small></div></div>
         <button id="replay-button" class="primary-button">PLAY AGAIN <b>↻</b></button>
+      </section>
+
+      <section id="install-sheet" class="install-sheet hidden" role="dialog" aria-modal="true" aria-labelledby="install-title">
+        <div class="install-card">
+          <button id="install-close" class="install-close" aria-label="Close install dialog">×</button>
+          <div class="install-icon">N</div>
+          <p>ANDROID EDITION</p>
+          <h2 id="install-title">PLAY NOVA STRIKE<br />AS AN APP</h2>
+          <span id="install-copy">Install for a full-screen arena, quick launch, and less browser clutter.</span>
+          <button id="install-confirm" class="primary-button">DOWNLOAD &amp; PLAY <b>↓</b></button>
+          <small id="install-help">Requires Chrome on Android and an HTTPS game link.</small>
+        </div>
       </section>
 
       <div id="rotate-message"><span>↻</span><strong>Rotate your device</strong><small>Nova Strike plays best in landscape.</small></div>

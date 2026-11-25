@@ -1,4 +1,4 @@
-const CACHE = 'nova-strike-v3';
+const CACHE = 'nova-strike-v4';
 const ASSETS = ['./', './index.html', './style.css', './game.js', './manifest.json', './icon.svg'];
 
 self.addEventListener('install', event => {

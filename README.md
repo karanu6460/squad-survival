@@ -13,6 +13,10 @@ The included server has no external package dependency. It balances players betw
 
 To play with people on the same Wi-Fi, share `http://YOUR-COMPUTER-LAN-IP:8787`. To play with friends over the public internet, deploy this exact Node app to a host that supports persistent WebSocket connections and share its HTTPS URL.
 
+## Android app install
+
+After opening the deployed HTTPS game link in Chrome on Android, tap **Install on Android** in the main menu, then choose **Download & Play**. Chrome installs NOVA STRIKE as a full-screen Progressive Web App and places it on the home screen. If Chrome has not shown the install prompt yet, use Chrome's three-dot menu and select **Install app**.
+
 ## Controls
 
 - Touch: left stick to move; drag anywhere on the right half to aim; use **FIRE** to shoot and **DASH** to evade.
