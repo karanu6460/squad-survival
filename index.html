@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+    <meta name="theme-color" content="#07101f" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <link rel="manifest" href="manifest.json" />
+    <title>NOVA STRIKE — Squad Survival</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main id="game-shell" aria-label="Nova Strike squad survival game">
+      <canvas id="game" aria-label="Game canvas"></canvas>
+
+      <section id="hud" class="hidden" aria-live="polite">
+        <div class="top-bar">
+          <div class="team-score blue"><span id="blue-score">00</span><small>ALPHA</small></div>
+          <div class="match-status"><strong id="timer">03:00</strong><span>FIRST TO 40</span></div>
+          <div class="team-score red"><span id="red-score">00</span><small>OMEGA</small></div>
+        </div>
+
+        <div class="mission-chip"><i></i><span id="mission-text">Secure the zone</span></div>
+        <div class="performance-pill" title="Adaptive render quality"><i></i><b id="fps-value">--</b><small>FPS</small><em id="quality-mode">HDR</em></div>
+        <div id="network-pill" class="network-pill hidden"><i></i><span id="network-text">ONLINE</span></div>
+        <div id="kill-feed" class="kill-feed"></div>
+
+        <div class="health-wrap">
+          <div class="portrait">A</div>
+          <div class="bars">
+            <div class="health-line"><div id="health-fill"></div></div>
+            <div class="shield-line"><div id="shield-fill"></div></div>
+            <span id="health-label">100 / 100</span>
+          </div>
+        </div>
+
+        <div id="respawn-panel" class="respawn-panel hidden">
+          <span>REDEPLOYING</span><strong id="respawn-time">3</strong><small>Your squad is holding the line</small>
+        </div>
+
+        <div class="controls" aria-label="Touch controls">
+          <div id="move-zone" class="move-zone"><div id="stick" class="stick"></div></div>
+          <div class="action-cluster">
+            <button id="dash-button" class="dash-button" aria-label="Dash"><span>↗</span><small>DASH</small><b id="dash-cooldown"></b></button>
+            <button id="fire-button" class="fire-button" aria-label="Fire weapon"><span>FIRE</span></button>
+          </div>
+        </div>
+      </section>
+
+      <section id="menu" class="screen menu-screen">
+        <div class="brand"><span class="brand-mark">N</span><div><h1>NOVA <em>STRIKE</em></h1><p>TEAM DEATHMATCH</p></div></div>
+        <div class="menu-card">
+          <div class="mode-label"><span></span> LIVE COMBAT SIMULATION</div>
+          <h2>Squad Survival</h2>
+          <p>Lead Alpha Squad through a fast 5v5 arena. Eliminate enemies, use cover, and win before Omega captures the field.</p>
+          <div class="mode-details"><span>5 v 5</span><span>•</span><span>3 MIN</span><span>•</span><span>FIRST TO 40</span></div>
+          <label class="callsign-label" for="player-name">CALLSIGN</label>
+          <input id="player-name" class="callsign" maxlength="12" value="RANGER" aria-label="Your callsign" />
+          <button id="online-button" class="primary-button">FIND ONLINE MATCH <b>›</b></button>
+          <button id="play-button" class="secondary-button">TRAIN WITH BOTS</button>
+          <p id="online-status" class="online-status">10 players per tactical match</p>
+          <div class="tips"><span>◉ MOVE</span><span>◎ AIM + FIRE</span><span>↗ DASH</span></div>
+        </div>
+        <div class="quality-note">ADAPTIVE RENDERING <i></i> UP TO 120 FPS</div>
+      </section>
+
+      <section id="end-screen" class="screen end-screen hidden">
+        <div class="result-mark">✦</div>
+        <p id="result-overline">MATCH COMPLETE</p>
+        <h2 id="result-title">VICTORY</h2>
+        <p id="result-copy">Alpha squad owns the arena.</p>
+        <div class="final-score"><div><span id="final-blue">40</span><small>ALPHA</small></div><b>:</b><div><span id="final-red">28</span><small>OMEGA</small></div></div>
+        <button id="replay-button" class="primary-button">PLAY AGAIN <b>↻</b></button>
+      </section>
+
+      <div id="rotate-message"><span>↻</span><strong>Rotate your device</strong><small>Nova Strike plays best in landscape.</small></div>
+    </main>
+    <script src="game.js"></script>
+    <script>
+      if ('serviceWorker' in navigator) navigator.serviceWorker.register('./service-worker.js').catch(() => {});
+    </script>
+  </body>
+</html>

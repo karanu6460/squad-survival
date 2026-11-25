@@ -1,0 +1,12 @@
+{
+  "name": "nova-strike-squad-survival",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Dependency-free 5v5 browser arena prototype",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
